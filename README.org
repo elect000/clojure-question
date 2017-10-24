@@ -1,4 +1,5 @@
 * 問題
+https://github.com/halgari/fn-fx のExampleを試していて、
 cider-jack-in をして、ある関数を評価するとエラーになるが、lein runしても全く問題なく動く
 
 * 環境
