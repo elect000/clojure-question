@@ -1,0 +1,85 @@
+* 問題
+cider-jack-in をして、ある関数を評価するとエラーになるが、lein runしても全く問題なく動く
+
+* 環境
+- Manjaro Linux
+- Spacemacs 0.200.9[latest]
+- CIDER 0.16.0-snapshot
+- leiningen 2.8.0 on jav 1.8.0_144 openjdk 64bit server vm
+
+* 問題の関数
+コメントで、here と書かれている部分の下がエラーになる。
+エラー内容は、
+
+#+BEGIN_SRC text
+  Show: Project-Only All 
+  Hide: Clojure Java REPL Tooling Duplicates  (90 frames hidden)
+
+2. Unhandled clojure.lang.Compiler$CompilerException
+   Error compiling /home/elect/GitHub/example/src/example/core.clj at (67:18)
+
+1. Caused by java.lang.RuntimeException
+   Unable to resolve symbol: STATE__ in this context
+#+END_SRC
+
+#+BEGIN_SRC clojure
+(defui LoginWindow
+  (render [this {:keys [authed?]}]
+    (ui/grid-pane
+      :alignment :center
+      :hgap 10
+      :vgap 10
+      :padding (ui/insets
+                 :bottom 25
+                 :left 25
+                 :right 25
+                 :top 25)
+      :children [(ui/text
+                   :text "Welcome"
+                   :font (ui/font
+                           :family "Tahoma"
+                           :weight :normal
+                           :size 20)
+                   :grid-pane/column-index 0
+                   :grid-pane/row-index 0
+                   :grid-pane/column-span 2
+                   :grid-pane/row-span 1)
+
+                 (ui/label
+                   :text "User:"
+                   :grid-pane/column-index 0
+                   :grid-pane/row-index 1)
+
+                 (ui/text-field
+                   :id :user-name-field
+                   :grid-pane/column-index 1
+                   :grid-pane/row-index 1)
+
+                 (ui/label :text "Password:"
+                   :grid-pane/column-index 0
+                   :grid-pane/row-index 2)
+
+                 (ui/password-field
+                   :id :password-field
+                   :grid-pane/column-index 1
+                   :grid-pane/row-index 2)
+
+                 (ui/h-box
+                   :spacing 10
+                   :alignment :bottom-right
+                   :children [(ui/button :text "Sign in"
+                                :on-action {:event :auth
+                                            :fn-fx/include {:user-name-field #{:text}
+                                                            :password-field #{:text}}})]
+                   :grid-pane/column-index 1
+                   :grid-pane/row-index 4)
+;; here!!!
+                 (ui/text
+                   :text (if authed? "Sign in was pressed" "")
+                   :fill firebrick
+                   :grid-pane/column-index 1
+                   :grid-pane/row-index 6)])))
+#+END_SRC
+
+
+
