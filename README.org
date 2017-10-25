@@ -84,3 +84,6 @@ cider-jack-in をして、ある関数を評価するとエラーになるが、
 
 
 
+# 結論
+leiningenかSpacemacsの過去ファイルが問題だったようです。
+このため、これら(~/.m2 ~/.lein ~/.emacs.d)を削除し、再インストール(lein self-install =spacemacsの再インストール=)を行うことで解決できました
